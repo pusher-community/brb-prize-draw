@@ -2,57 +2,23 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>rdrc</title>
+    <title>BRB</title>
     <meta name="viewport" content="initial-scale=1">
     <style media="screen">
       body {
         overflow: hidden;
+        margin:0
       }
-      #dot {
-
-        /* vmin fallback */
-        width: 10em;
-        height: 10em;
-        margin-top:-5em;
-        margin-left:-5em;
-
-
-        width: 80vmin;
-        height: 80vmin;
-        background: #fff;
-        border-radius: 100%;
-        display: inline-block;
-
-        position: fixed;
-        top:50%;
-        left:50%;
-        margin-top:-40vmin;
-        margin-left:-40vmin;
-
-        box-shadow: rgba(0,0,0,0.7) 0 0 40px;
-
-        -webkit-transition: 2s;
-        transition: 2s;
-      }
-
-      #dot.cover {
-        -webkit-transform: scale(4);
-                transform: scale(4)
-      }
-
-      #dot.fast {
-        -webkit-transition: 0.2s;
-        transition: 0.2s;
-      }
-
       body {
-        background: #3e3c3c
+        background: #fff;
+        transition: 1s
       }
     </style>
   </head>
-  <body>
-    <div id="dot" class="cover"></div>
+  <body class="load">
 
+    <script src="bower_components/sylvester/sylvester.js"></script>
+    <script src="bower_components/hammerjs/hammer.min.js"></script>
     <script src="bower_components/es6-promise/es6-promise.js"></script>
     <script src="bower_components/fetch/fetch.js"></script>
     <script src="bower_components/pusher/dist/web/pusher.js"></script>
@@ -84,9 +50,19 @@
 
       })();
 
-      setTimeout(function(){
-        dot.className = ''
-      },100)
+
+      // the one control
+      var hue=0;
+
+      // see gh - benfoxall/cubes/ruby.html
+      !function(){function q(g,b,c){return{a:g,b:b,c:c,u:g.add(b).add(c).toUnitVector()}}function x(g,b,c){for(var a=Matrix.RotationZ(2*Math.PI/g),d=[],e=0;e<g;e++){var h=a.x(b),k=a.x(c);d.push(q(h,c,b));d.push(q(h,c,k));b=h;c=k}return d}function r(){f=window.innerWidth;l=window.innerHeight;a=Math.min(f,l);m.width=f;m.height=l;ctx=m.getContext("2d");ctx.translate(f/2,l/2);ctx.globalCompositeOperation="lighter";t=ctx.clearRect.bind(ctx,-f/2,-l/2,f,l);u=$M([[a/4,0,0],[0,a/4,0],[0,0,a/4]]).multiply(Matrix.RotationX(-Math.PI/2)).multiply(Matrix.RotationX(-.2))}
+      function v(g){requestAnimationFrame(v);n=.9*n+.1*p;var b=u.multiply(Matrix.RotationX(-Math.abs(n-p)/2500)).multiply(Matrix.RotationZ(g/9E3+n/100));1>a&&(a=.94*a+.06,b=b.multiply($M([[a,0,0],[0,a,0],[0,0,a]])));t();y.forEach(function(c,g){var a=b.multiply(c.a),e=b.multiply(c.b),h=b.multiply(c.c),k=b.multiply(c.u).angleFrom($V([0,1,0]))/(2*Math.PI);ctx.fillStyle="hsla("+Math.floor(hue)+", 90%, "+90*k+"% , 0.7)";ctx.beginPath();ctx.moveTo(a.e(1),a.e(2));ctx.lineTo(e.e(1),e.e(2));ctx.lineTo(h.e(1),h.e(2));
+      ctx.fill()})}var y=function(a,b){for(var c=Matrix.RotationZ(-Math.PI/a),f=[],d=0;d<b.length-1;d++){var e=b[d+1][0]/2,h=b[d+1][1]/2,k=$V([0,b[d][0]/2,b[d][1]/2]),e=$V([0,e,h]);d%2?k=c.x(k):e=c.x(e);f=f.concat(x(a,k,e))}return f}(8,[[0,-2.5],[2.6,-2.5],[3.9,-1.1],[0,2.8]]),f,l,a,t,u,m=document.createElement("canvas");document.body.appendChild(m);r();var p=0,n=1100;a=0;requestAnimationFrame(v);var w=new Hammer(m);w.on("panstart",function(a){p=n=0});w.on("pan",function(a){p=a.deltaX});window.addEventListener("resize",
+      function(a,b,c){return function(){clearTimeout(c);c=setTimeout(a,b,arguments)}}(r,80),!1)}();
+
+
+
+
 
       var pusher, channel;
 
@@ -132,16 +108,16 @@
 
         })
 
-        var red = '#ca1425' // red
+        var red = 360 // red
         var colours = [
-          '#1b6cb7', // blue
-          '#5bb71b', // green
-          '#f7ff25', // yellow
-          '#fba3e3', // pink
-          '#b5fffd', // light aqua
-          '#000', // black
-          '#fff', // white
-          '#ca1425' // red (WINNER)
+          60, // yelowy
+          100, // green
+          160, // turq
+          200, // blue
+          220, // dark blue
+          270, // purple
+          300, // pink
+          360, // red (WINNER)
         ]
 
         var c = Math.floor(Math.random() * (colours.length-1));
@@ -156,8 +132,7 @@
 
           c = c % colours.length
 
-          dot.className = 'fast'
-          dot.style.backgroundColor = colours[c]
+          hue = colours[c]
 
           if(window.navigator.vibrate) {
             window.navigator.vibrate(80)
@@ -166,8 +141,8 @@
 
 
         function win() {
-          dot.className = 'fast'
-          dot.style.backgroundColor = red;
+          hue = red;
+          document.body.style.backgroundColor = 'red'
 
           ping(cscale[0], 0.9)
           setTimeout(function(){
@@ -185,13 +160,10 @@
         }
 
         function lose() {
-          dot.className = 'fast'
-          dot.style.backgroundColor = '#000'
+          hue = colours[3]
         }
 
         function reset() {
-          dot.className = ''
-          dot.style.backgroundColor = ''
           document.body.style.backgroundColor = ''
         }
 
