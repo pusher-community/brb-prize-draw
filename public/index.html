@@ -13,9 +13,26 @@
         background: #fff;
         transition: 1s
       }
+      #find-out-more {
+        padding:1em;
+        font-family: sans-serif;
+        display: none;
+      }
+      h1, h2 {font-weight: 100}
+      a {color: #08f}
+      small {font-size:.5em}
     </style>
   </head>
   <body class="load">
+
+    <div id="find-out-more">
+      <h1>Find out more</h1>
+
+      <h2>Ben <a href="https://twitter.com/@benjaminbenben">@BenjaminBenBen</a></h2>
+      <h2>Jake <a href="https://twitter.com/Jack_Franklin">@Jack_Franklin</a></h2>
+
+      <h2><a href="https://pusher.com/?utm_source=prize-draw&utm_medium=real-life&utm_campaign=brighton-ruby">Pusher.com</a></h2>
+    </div>
 
     <script src="bower_components/sylvester/sylvester.js"></script>
     <script src="bower_components/hammerjs/hammer.min.js"></script>
@@ -162,6 +179,10 @@
             ping(r(cscale), 0.5)
           })
 
+
+          channel.bind('find-out-more', function(data) {
+            document.getElementById('find-out-more').style.display = 'block'
+          })
 
 
 
