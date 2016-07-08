@@ -12,9 +12,14 @@
     border: 1px solid #aaa;
     margin: .2em
   }
+  #state {
+    border-bottom: 1px solid #08f;
+    color: #f08;
+  }
 </style>
 </head>
 <body>
+  <div id="state"></div>
 <form method="post" action="/">
   <label>
     secret
@@ -29,5 +34,7 @@
 
   <input type="submit" name="submit" value="reset">
 </form>
-
+<script type="text/javascript">
+  state.innerText = decodeURIComponent(window.location.search.substr(1))
+</script>
 </body></html>

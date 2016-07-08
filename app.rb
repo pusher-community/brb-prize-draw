@@ -22,6 +22,7 @@ get '/config' do
        cluster: ENV["PUSHER_CLUSTER"]
 end
 
+# Grant all users access to this channel
 post '/pusher/auth' do
   json client.authenticate(params[:channel_name], params[:socket_id], {
     user_id: params[:socket_id]
@@ -33,42 +34,19 @@ post '/' do
     403
   else
 
-    case params["submit"]
-    when "reload"
-      client.trigger('presence-competition', 'reload', {})
-      return [200, 'reloaded']
+    event = params["submit"]
 
-    when "reset"
-      client.trigger('presence-competition', 'reset', {})
-      return [200, 'reset']
+    # choose a target (maybe they've won something)
+    winner = client.channel_users('presence-competition')[:users].sample
 
-    when "win"
-      winner = client.channel_users('presence-competition')[:users].sample
+    winner ||= {id: "NONE"}
 
-      if winner
-        client.trigger('presence-competition', 'winner', {
-          user: winner
-        })
+    # trigger event given by submit button
+    client.trigger('presence-competition', event, {
+      user: winner
+    })
 
-        [200, "winner #{winner["id"]}!"]
-      else
-        [500, "no players"]
-      end
-
-    when "quick-win"
-      winner = client.channel_users('presence-competition')[:users].sample
-
-      if winner
-        client.trigger('presence-competition', 'quick-winner', {
-          user: winner
-        })
-
-        [200, "(quick) winner #{winner["id"]}!"]
-      else
-        [500, "no players"]
-      end
-
-    end
+    redirect to("/admin.html?*#{event}* - #{winner["id"]}")
 
   end
 end
