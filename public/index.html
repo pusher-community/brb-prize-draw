@@ -108,6 +108,63 @@
             window.location.reload()
           })
 
+
+          channel.bind('color-1', function(data) {
+            _schedule = []
+            step(7) // red
+          })
+          channel.bind('color-2', function(data) {
+            _schedule = []
+            step(3)
+          })
+          channel.bind('color-3', function(data) {
+            _schedule = []
+            step(6)
+          })
+          channel.bind('color-4', function(data) {
+            _schedule = []
+            step(2)
+          })
+
+
+          channel.bind('color-r', function(data) {
+            _schedule = []
+            step()
+          })
+
+
+
+
+          channel.bind('sound-1', function(data) {
+            _schedule = []
+            step(7) // red
+            ping(cscale[1], 0.4)
+          })
+          channel.bind('sound-2', function(data) {
+            _schedule = []
+            step(3)
+            ping(cscale[2], 0.4)
+          })
+          channel.bind('sound-3', function(data) {
+            _schedule = []
+            step(6)
+            ping(cscale[3], 0.4)
+          })
+          channel.bind('sound-4', function(data) {
+            _schedule = []
+            step(2)
+            ping(cscale[4], 0.4)
+          })
+
+          channel.bind('sound-r', function(data) {
+            _schedule = []
+            step()
+            ping(r(cscale), 0.5)
+          })
+
+
+
+
         })
 
         var red = 360 // red
@@ -189,65 +246,67 @@
           var now = window.performance.now()
 
           _schedule = [
-            {t: 0, fn: function(){
-              // start off with black
-              step(5)
-            }},
-            {t: 3000, fn: function(){
-              // then red
-              step(7)
-            }},
-            {t: 6000, fn: function(){
-              step(1)
-            }},
-            {t: 1000, fn: function(){
-              step(2)
-            }},
-            {t: 1000, fn: function(){
-              step(3)
-            }},
-            {t: 1000, fn: function(){
-              step(4)
-            }},
-            {t: 1000, fn: function(){
-              step(5)
-            }},
 
-
-            {t: 8000, fn: function(){
-              step(1)
-              ping(cscale[0], 0.3)
-            }},
-            {t: 1000, fn: function(){
-              step(2)
-              ping(cscale[1], 0.3)
-            }},
-            {t: 1000, fn: function(){
-              step(3)
-              ping(cscale[2], 0.3)
-            }},
-            {t: 1000, fn: function(){
-              step(4)
-              ping(cscale[3], 0.3)
-            }},
-            {t: 1000, fn: function(){
-              step(1)
-              ping(cscale[4], 0.3)
-            }},
-            {t: 1000, fn: function(){
-              step(6)
-              ping(cscale[5], 0.3)
-            }},
-            {t: 1000, fn: function(){
-              step(5)
-              ping(cscale[6], 0.3)
-            }},
-
-
-            {t: 7000, fn: function(){
-              step(1)
-              ping(cscale[0], 0.3)
-            }},
+            //
+            // {t: 0, fn: function(){
+            //   // start off with black
+            //   step(5)
+            // }},
+            // {t: 3000, fn: function(){
+            //   // then red
+            //   step(7)
+            // }},
+            // {t: 6000, fn: function(){
+            //   step(1)
+            // }},
+            // {t: 1000, fn: function(){
+            //   step(2)
+            // }},
+            // {t: 1000, fn: function(){
+            //   step(3)
+            // }},
+            // {t: 1000, fn: function(){
+            //   step(4)
+            // }},
+            // {t: 1000, fn: function(){
+            //   step(5)
+            // }},
+            //
+            //
+            // {t: 8000, fn: function(){
+            //   step(1)
+            //   ping(cscale[0], 0.3)
+            // }},
+            // {t: 1000, fn: function(){
+            //   step(2)
+            //   ping(cscale[1], 0.3)
+            // }},
+            // {t: 1000, fn: function(){
+            //   step(3)
+            //   ping(cscale[2], 0.3)
+            // }},
+            // {t: 1000, fn: function(){
+            //   step(4)
+            //   ping(cscale[3], 0.3)
+            // }},
+            // {t: 1000, fn: function(){
+            //   step(1)
+            //   ping(cscale[4], 0.3)
+            // }},
+            // {t: 1000, fn: function(){
+            //   step(6)
+            //   ping(cscale[5], 0.3)
+            // }},
+            // {t: 1000, fn: function(){
+            //   step(5)
+            //   ping(cscale[6], 0.3)
+            // }},
+            //
+            //
+            // {t: 7000, fn: function(){
+            //   step(1)
+            //   ping(cscale[0], 0.3)
+            // }},
 
             t(1000,0.4),
             t(1000,0.4),
