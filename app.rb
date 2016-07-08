@@ -46,7 +46,11 @@ post '/' do
       user: winner
     })
 
-    redirect to("/admin.html?*#{event}* - #{winner["id"]}")
+    if event == 'noop'
+      200
+    else
+      redirect to("/admin.html?*#{event}* - #{winner["id"]}")
+    end
 
   end
 end
