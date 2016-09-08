@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Locator</title>
+    <style media="screen">
+      /*button {height:50vh; width:40vw}*/
+      button {font-size: 2em; margin: .1em}
+      body {font-family: sans-serif; font-size:5vw; color:#000}
+      h1, h2{font-weight: 100}
+    </style>
+  </head>
+  <body>
+
+    <h1>Timing</h1>
+      <button data-action="T1">B</button>
+      <button data-action="T2">P</button>
+      <button data-action="T3">B -</button>
+      <button data-action="T4">P -</button>
+      <button data-action="T5">- B</button>
+      <button data-action="T6">- P</button>
+
+      <button data-action="T7">B P</button>
+      <button data-action="T8">P B</button>
+
+    <h1>Panning</h1>
+      <button data-action="P1">left</button>
+      <button data-action="P2">middle</button>
+      <button data-action="P3">right</button>
+      <button data-action="P4">pan</button>
+      <button data-action="P5">unpan</button>
+
+
+    <!-- <button style="background:#08f" onclick="ping(350)"></button> -->
+    <!-- <button style="background:#f08" onclick="ping(450)"></button> -->
+
+    <script type="text/javascript">
+    // create web audio api context
+    var audioCtx = new (window.AudioContext || window.webkitAudioContext)()
+
+    function ping(freq, volume, side) {
+
+      // create Oscillator node
+      var oscillator = audioCtx.createOscillator()
+
+      oscillator.type = 'sine'
+      oscillator.frequency.value = freq || 200
+      oscillator.start()
+
+      var gain = audioCtx.createGain()
+      gain.gain.value = 0
+      gain.gain.exponentialRampToValueAtTime(volume||1, audioCtx.currentTime+ 0.1)
+      gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime+0.5)
+      oscillator.connect(gain)
+
+      var panNode = audioCtx.createStereoPanner()
+      panNode.pan.value = side || 0
+
+      gain.connect(panNode)
+      panNode.connect(audioCtx.destination)
+
+    }
+
+
+
+    function pan(a, b) {
+
+      // create Oscillator node
+      var oscillator = audioCtx.createOscillator()
+
+      oscillator.type = 'sine'
+      oscillator.frequency.value = a || 200
+      oscillator.start()
+
+      var gain = audioCtx.createGain()
+      gain.gain.value = 0
+      gain.gain.exponentialRampToValueAtTime(1, audioCtx.currentTime+ 0.1)
+      gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime+3)
+      oscillator.connect(gain)
+
+      var panNode = audioCtx.createStereoPanner()
+      panNode.pan.value = -1
+      panNode.pan.linearRampToValueAtTime(1, audioCtx.currentTime+3)
+
+      gain.connect(panNode)
+      panNode.connect(audioCtx.destination)
+
+
+
+      // create Oscillator node
+      var oscillator = audioCtx.createOscillator()
+
+      oscillator.type = 'sine'
+      oscillator.frequency.value = b || 200
+      oscillator.start()
+
+      var gain = audioCtx.createGain()
+      gain.gain.value = 0
+      gain.gain.exponentialRampToValueAtTime(1, audioCtx.currentTime+ 0.1)
+      gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime+3)
+      oscillator.connect(gain)
+
+      var panNode = audioCtx.createStereoPanner()
+      panNode.pan.value = 1
+      panNode.pan.linearRampToValueAtTime(-1, audioCtx.currentTime+3)
+
+      gain.connect(panNode)
+      panNode.connect(audioCtx.destination)
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+    setTimeout(function(){
+        ping(350, 1, -1)
+    }, 500)
+
+    setTimeout(function(){
+      ping(450, 1, 1)
+        // ping(450)
+    }, 1200)
+
+    // window.addEventListener('keyup', function(e){
+    //   if(e.key == 'ArrowLeft') {
+    //     ping(350)
+    //   }
+    //   if(e.key == 'ArrowRight') {
+    //     ping(450)
+    //   }
+    // })
+
+    ;[].forEach.call(document.querySelectorAll('button'), function(b){
+
+      b.addEventListener('click', function(){
+        console.log(b.dataset.action)
+        switch (b.dataset.action) {
+          case 'T1':
+            ping(350)
+            break;
+
+          case 'T2':
+            ping(450)
+            break;
+
+          case 'T3':
+            ping(350, 1, -1)
+            break;
+
+          case 'T4':
+            ping(450, 1, -1)
+            break;
+
+          case 'T5':
+            ping(350, 1, 1)
+            break;
+
+          case 'T6':
+            ping(450, 1, 1)
+            break;
+
+          case 'T7':
+            ping(350, 1, 1)
+            ping(450, 1, -1)
+            break;
+
+          case 'T8':
+            ping(350, 1, -1)
+            ping(450, 1, 1)
+            break;
+
+
+
+
+            case 'P1':
+              ping(350, .75, 1)
+              ping(450, .25, -1)
+              break;
+
+            case 'P2':
+              ping(350, .5, 1)
+              ping(450, .5, -1)
+              break;
+
+            case 'P3':
+              ping(350, .25, 1)
+              ping(450, .75, -1)
+              break;
+
+
+            case 'P4':
+              pan(350, 450)
+              break;
+
+            case 'P5':
+              pan(450, 350)
+              break;
+
+
+
+
+
+
+
+          default:
+
+        }
+      })
+    })
+
+    </script>
+
+  </body>
+</html>
