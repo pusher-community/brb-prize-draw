@@ -1,2 +1,3 @@
 # brb-prize-draw
-Brighton Ruby Prize Draw
+
+Prize draw with rubies
