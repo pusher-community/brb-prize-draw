@@ -1,3 +1,1 @@
-# brb-prize-draw
-
-Prize draw with rubies
+# Spinning Ruby Gem Demo
